@@ -1,0 +1,11 @@
+# Java build artifacts class files
+*.class
+
+# other generated files
+bin/
+gen/
+build/
+
+# local configuration file
+.gradle/
+.vscode/

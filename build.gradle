@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'edu.akdeniz.pacmanserver.App'
+    }
+}
+mainClassName = 'edu.akdeniz.pacmanserver.App'
+targetCompatibility = '1.8'
+sourceCompatibility = '1.8'
