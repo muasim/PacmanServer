@@ -21,7 +21,10 @@ public class PacketManager implements Runnable
 {
     public static final int MAX_STRING_LENGTH = 16;
     public static final int TYPE_LENGTH = 1;
-    
+
+    public static final byte SUCCEED = 0x01;
+    public static final byte ERROR = 0x00;
+
     public static final Charset CHARSET = Charset.forName("US-ASCII");
 
     private PacketBuffer packetReceiver;
@@ -95,12 +98,8 @@ public class PacketManager implements Runnable
                     {
                         byte[] roomName = new byte[MAX_STRING_LENGTH];
                         byte[] playerName = new byte[MAX_STRING_LENGTH];
-                        for(int i = 0 ; i < MAX_STRING_LENGTH ; i++)
-                        {
-                            roomName[i] = this.receivedBuffer.get();
-                            playerName[i] = this.receivedBuffer.get(this.receivedBuffer.position() + MAX_STRING_LENGTH - 1);
-                        }
-                        this.receivedBuffer.position(this.receivedBuffer.position() + MAX_STRING_LENGTH);
+                        this.receivedBuffer.get(roomName , 0 , MAX_STRING_LENGTH);
+                        this.receivedBuffer.get(playerName , 0 , MAX_STRING_LENGTH);
                         short roomID = this.generateRoomID();
                         rooms.put(roomID , new Room(roomName , playerName , address));
                         System.out.println("New Room Initialized! RoomName: " + new String(roomName , CHARSET) + " , HostName: "+ new String(playerName , CHARSET) + " , IP: " + address);
@@ -117,6 +116,9 @@ public class PacketManager implements Runnable
                         if(room == null)
                         {
                             System.out.println("Error : RoomID Violation. IP : " + address + " Tries To Join Non-Exist RoomID: " + roomID);
+                            sentBuffer.put(DataType.ROOM_INFO);
+                            sentBuffer.put(ERROR);
+                            packetSender.offer(new Packet((short) (Byte.BYTES * 2), address));
                             break;
                         }
                         if(!room.hasIP(address))
@@ -127,7 +129,13 @@ public class PacketManager implements Runnable
                                 matches.put(roomID , new Match(roomID , rooms.get(roomID).getRoomInfo() , packetReceiver.cloneBackBuffer()));
                             }
                         }
-                        else System.out.println("Error : IP: " + address + " is already in the room of " + roomID);
+                        else 
+                        {
+                            System.out.println("Error : IP: " + address + " is already in the room of " + roomID);
+                            sentBuffer.put(DataType.ROOM_INFO);
+                            sentBuffer.put(ERROR);
+                            packetSender.offer(new Packet((short) (Byte.BYTES * 2), address));
+                        }
                         break;
                     }
                     case DataType.LEAVE_GAME:
