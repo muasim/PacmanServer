@@ -74,8 +74,11 @@ public class PacketManager implements Runnable
     
                     case DataType.GAME_LOADED:
                     {
-                        matches.get(receivedBuffer.getShort()).inform(address);
-                        this.receivedBuffer.position(this.receivedBuffer.position() + this.packetReceiver.peek().getLength() - (Byte.BYTES + Short.BYTES));
+                        Match match = matches.get(receivedBuffer.getShort()); 
+                        if(match.inform(address))
+                        {
+                            match.start();
+                        }
                         break;
                     }
                     case DataType.GAME_LIST:

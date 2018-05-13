@@ -176,7 +176,7 @@ public class Match extends Thread
 
         }
     }
-    public void inform(InetSocketAddress address) 
+    public boolean inform(InetSocketAddress address) 
     {
         for(PlayerInfo playerInfo:playerInfos)
         {
@@ -188,15 +188,16 @@ public class Match extends Thread
                     System.out.println("READY TO BEGIN");
                     SocketSend.packetBuffers.add(this.packetSender);
                     this.packetSender.getBackBuffer().put(DataType.GAME_LOADED);
+                    playerInfos.forEach(player ->
+                    {
+                        packetSender.offer(new Packet((short) Byte.BYTES, player.getAddress()));
+                    });
+                    return true;
                 }
-                break;
             }
             else System.out.println("IP Violation! Match doesn't contains the address : " + address);    
         }
-        playerInfos.forEach(player ->
-        {
-            packetSender.offer(new Packet((short) Byte.BYTES, player.getAddress()));
-        });
+        return false;
 	}
 
     public void addPacket(Packet packet) 

@@ -11,8 +11,6 @@ public class DataType
     public static final byte LEAVE_GAME = 0x03;
     public static final byte ROOM_INFO = 0x04;
     public static final byte GAME_LIST = 0x05;
-    public static final byte GAME_INIT = 0x06;
-    public static final byte GAME_LOADED = 0x07;
-    public static final byte GAME_PACKET = 0x08;
-	public static final byte GAME_START = 0x09;
+    public static final byte GAME_LOADED = 0x06;
+    public static final byte GAME_PACKET = 0x07;
 }
