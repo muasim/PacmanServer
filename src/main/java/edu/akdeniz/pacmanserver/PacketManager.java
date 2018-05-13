@@ -79,6 +79,8 @@ public class PacketManager implements Runnable
                     {
                         System.out.println("Room List Requested by: " + address);
                         int dataLength = sentBuffer.position();
+                        sentBuffer.put(DataType.GAME_LIST);
+                        sentBuffer.putShort((short)rooms.size());
                         rooms.forEach((roomID , room) ->
                         {
                             sentBuffer.putShort(roomID);
