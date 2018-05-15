@@ -51,7 +51,7 @@ public class SocketSend implements Runnable
                     try 
                     {
                         Packet packet = packetBuffer.poll();
-                        buffer.limit(buffer.position() + packet.getLength() +1 );
+                        buffer.limit(buffer.position() + packet.getLength());
                         this.channel.send(buffer, packet.getAddress());
                     } catch (IOException e) 
                     {

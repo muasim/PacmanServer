@@ -92,8 +92,7 @@ public class PacketManager implements Runnable
                             sentBuffer.putShort(roomID);
                             sentBuffer.put(room.getRoomName());
                         });
-                        dataLength += sentBuffer.position();
-
+                        dataLength = sentBuffer.position() - dataLength;
                         packetSender.offer(new Packet((short)dataLength , address));
                         break;
                     }
