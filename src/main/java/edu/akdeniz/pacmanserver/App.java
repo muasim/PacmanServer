@@ -21,7 +21,7 @@ public class App {
     public static void main(String[] args) 
     {
         InetAddress bindAddress = null;
-        if(args[0] != null)
+        if(args.length > 0)
         {
             try
             {

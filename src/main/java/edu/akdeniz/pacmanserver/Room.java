@@ -60,20 +60,18 @@ public class Room
             buffer.put(players.size() == MAX_PLAYER - 1 ? (byte)0x01 : (byte)0x00);
             buffer.put(playerName);
             
-            packetSender.offer(new Packet((short) (Byte.SIZE * 2 + MAX_STRING_LENGTH) , players.get(i).getAddress()));
+            packetSender.offer(new Packet((short) (Byte.BYTES * 2 + MAX_STRING_LENGTH) , players.get(i).getAddress()));
             
         }
         
         buffer.put(DataType.ROOM_INFO);
         buffer.put(SUCCEED);
-        buffer.put(players.size() == MAX_PLAYER - 1 ? (byte)0x01 : (byte)0x00);
         buffer.put((byte)players.size());
         players.forEach(player ->
         {
             buffer.put(player.getNameData());
         });
-        packetSender.offer(new Packet((short) (Byte.SIZE * 4 + MAX_STRING_LENGTH * players.size()) , address));
-
+        packetSender.offer(new Packet((short) (Byte.BYTES * 3 + MAX_STRING_LENGTH * players.size()) , address));
         this.players.add(new PlayerInfo(playerName , address));
         return players.size() == MAX_PLAYER ? true : false;
     }

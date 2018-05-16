@@ -104,7 +104,7 @@ public class PacketManager implements Runnable
                         this.receivedBuffer.get(playerName , 0 , MAX_STRING_LENGTH);
                         short roomID = this.generateRoomID();
                         rooms.put(roomID , new Room(roomName , playerName , address));
-                        System.out.println("New Room Initialized! RoomName: " + new String(roomName , CHARSET) + " , HostName: "+ new String(playerName , CHARSET) + " , IP: " + address);
+                        System.out.println("New Room Initialized! RoomID: " + roomID +" RoomName: " + new String(roomName , CHARSET) + " , HostName: "+ new String(playerName , CHARSET) + " , IP: " + address);
                         break;
                     }
                     case DataType.JOIN_GAME:
@@ -125,7 +125,7 @@ public class PacketManager implements Runnable
                         }
                         if(!room.hasIP(address))
                         {
-                            System.out.println("IP: " + address + " joined the room!");
+                            System.out.println("IP: " + address + " joined the room : " + roomID);
                             if(room.addPlayer(packetSender , playerName , address));
                             {
                                 matches.put(roomID , new Match(roomID , rooms.get(roomID).getRoomInfo() , packetReceiver.cloneBackBuffer()));
