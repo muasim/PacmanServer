@@ -126,9 +126,10 @@ public class PacketManager implements Runnable
                         if(!room.hasIP(address))
                         {
                             System.out.println("IP: " + address + " joined the room : " + roomID);
-                            if(room.addPlayer(packetSender , playerName , address));
+                            if(room.addPlayer(packetSender , playerName , address))
                             {
                                 matches.put(roomID , new Match(roomID , rooms.get(roomID).getRoomInfo() , packetReceiver.cloneBackBuffer()));
+                                rooms.remove(roomID);
                             }
                         }
                         else 

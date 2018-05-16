@@ -73,7 +73,7 @@ public class Room
         });
         packetSender.offer(new Packet((short) (Byte.BYTES * 3 + MAX_STRING_LENGTH * players.size()) , address));
         this.players.add(new PlayerInfo(playerName , address));
-        return players.size() == MAX_PLAYER ? true : false;
+        return players.size() == MAX_PLAYER;
     }
     /**
      * Finds the player by the address and removes the player information then 
